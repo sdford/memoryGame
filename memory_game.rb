@@ -16,22 +16,15 @@ class MemoryGame
     @num_possible_matches = @num_cards/2
     @num_found_matches = 0
 
-    @cards = []
     @board = []
-
-    uniq_cards = []
-    while uniq_cards.size < (@num_cards / 2)
-      card = Card.random_card
-      if is_new_card?(card,uniq_cards)
-        uniq_cards.append(card)
-      end
-    end
-    make_board(uniq_cards)
-    start_game
   end
 
   def start_game
+    uniq_cards = find_uniq_cards
+    make_board(uniq_cards)
+
     while !is_game_over?
+      puts "Starting game..."
       start_turn
     end
   end
@@ -108,15 +101,28 @@ class MemoryGame
       .include?( card.instance_variable_get(:@symbol) )
   end
 
+  def find_uniq_cards
+    puts "checking for uniq cards..."
+    uniq_cards = []
+    while uniq_cards.size < (@num_cards / 2)
+      card = Card.random_card
+      if is_new_card?(card,uniq_cards)
+        uniq_cards.append(card)
+      end
+    end
+
+  end
+
   def make_board(uniq_cards)
-    @cards = uniq_cards + uniq_cards
-    @cards.shuffle!
+    puts "making board..."
+    cards = uniq_cards + uniq_cards
+    cards.shuffle!
 
     card_index = 0
     for row_index in (0..@num_rows)
       row = []
       for col_index in (0..@num_cols)
-        row.append(@cards[card_index])
+        row.append(cards[card_index])
         card_index += 1
       end
       @board.append(row)
@@ -142,3 +148,4 @@ class MemoryGame
 end
 
 game = MemoryGame.new
+game.start_game
