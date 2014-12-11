@@ -129,4 +129,3 @@ class MemoryGame
 end
 
 game = MemoryGame.new
-game.start_turn
