@@ -34,13 +34,14 @@ class MemoryGame
 
     puts "Please enter a row (1-#{@board.size})"
     row = gets.chomp
-
-    if (1..@board.size+1).include?(row) 
+    puts "You entered row: #{row}"
+    if (1..@board.size+1)to_a.include?(row) 
       row -= 1 
       puts "Please enter a col (1-#{@board[row].size}"
       col = gets.chomp
+      puts "You entered col: #{col}"
 
-      if (1..@board[row].size+1).include?(col) 
+      if (1..@board[row].size+1).to_a.include?(col) 
         col -= 1
         selected_card = @board[row][col]
 
