@@ -19,9 +19,8 @@ class Card
 
   private
   def initialize(symbol, state)
-    random_symbol = SYMBOLS[ rand(0..SYMBOLS.size) ]
-    @symbol = random_symbol
-    @state = DEFAULT_STATE
+    @symbol = symbol
+    @state = state
   end
 
   # def check_symbol
