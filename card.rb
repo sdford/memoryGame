@@ -11,9 +11,8 @@ class Card
   end
 
   def flip!
-    if !self.state.nil?
-      current_state = self.state
-      @state = ((current_state == FLIPPED_UP_STATE) ? FLIPPED_DOWN_STATE : FLIPPED_UP_STATE)
+    if !@state.nil?
+      @state = ((@state == FLIPPED_UP_STATE) ? FLIPPED_DOWN_STATE : FLIPPED_UP_STATE)
     end
   end
 
