@@ -97,8 +97,14 @@ class MemoryGame
   private
 
   def is_new_card?(card,card_arr)
-    card_arr.map{ |c| c.instance_variable_get(:@symbol) }
+    is_new = !card_arr.map{ |c| c.instance_variable_get(:@symbol) }
       .include?( card.instance_variable_get(:@symbol) )
+    if is_new
+      "Found a new card!"
+      return true
+    else
+      puts "Card with symbol: #{card.instance_variable_get(:@symbol)} is already in array: #{print card_arr}"
+    end
   end
 
   def find_uniq_cards
