@@ -1,5 +1,6 @@
 class MemoryGame
   require './card.rb'
+  @@current_game = nil
 
   def initialize
     #make sure num of cards is even
@@ -27,6 +28,16 @@ class MemoryGame
     print_board
     while !is_game_over?
       start_turn
+    end
+    puts "You Won!!!"
+
+    puts "Play again? (Y/N)"
+    replay = gets.chomp
+    if replay.eql?("Y") || replay.eql?("y")
+      @@current_game = MemoryGame.new
+      @@current_game.start_game
+    else
+      return
     end
   end
 
@@ -82,6 +93,8 @@ class MemoryGame
       for card in row
         if card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
           print card.instance_variable_get(:@symbol)
+        elsif card.nil?
+          print "nil"
         else
           print 'X'
         end
@@ -97,14 +110,12 @@ class MemoryGame
   private
 
   def is_new_card?(card,card_arr)
-    !card_arr.map{ |c| c.instance_variable_get(:@symbol) }
-      .include?( card.instance_variable_get(:@symbol) )
-    # if is_new
-    #   "Found a new card!"
-    #   return true
-    # else
-    #   puts "Card with symbol: #{card.instance_variable_get(:@symbol)} is already in array: #{print card_arr}"
-    # end
+    if card.nil?
+      false
+    else
+      !card_arr.map{ |c| c.instance_variable_get(:@symbol) }
+        .include?( card.instance_variable_get(:@symbol) )
+    end
   end
 
   def find_uniq_cards
@@ -123,7 +134,9 @@ class MemoryGame
     card_pair_arr = []
     for card in cards
       card_pair_arr.push(card)
-      card_pair_arr.push(Card.new(card.instance_variable_get(:@symbol)))
+
+      new_card = Card.new(card.instance_variable_get(:@symbol))
+      card_pair_arr.push(new_card)
     end
     card_pair_arr
   end
@@ -134,9 +147,9 @@ class MemoryGame
     cards.shuffle!
 
     card_index = 0
-    for row_index in (0..@num_rows)
+    for row_index in (0..@num_rows-1)
       row = []
-      for col_index in (0..@num_cols)
+      for col_index in (0..@num_cols-1)
         row.push(cards[card_index])
         card_index += 1
       end

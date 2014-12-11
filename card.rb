@@ -10,7 +10,8 @@ class Card
   end
 
   def self.random_card
-    random_symbol = SYMBOLS[ rand(0..SYMBOLS.size) ]
+    random_index = (0..SYMBOLS.size-1).to_a.sample
+    random_symbol = SYMBOLS[random_index]
     Card.new(random_symbol)
   end
 
