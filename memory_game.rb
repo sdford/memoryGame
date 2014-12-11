@@ -24,30 +24,31 @@ class MemoryGame
     make_board(uniq_cards)
 
     puts "Starting game..."
+    print_board
     while !is_game_over?
       start_turn
     end
   end
 
   def start_turn
-    print_board
-
     puts "Please enter a row (1-#{@board.size})"
     row = (gets.chomp).to_i
     row -= 1
 
-    if (0..@board.size).to_a.include?(row) 
+    if 0 <= row && row < @board.size 
       puts "Please enter a col (1-#{@board[row].size})"
       col = (gets.chomp).to_i
       col -= 1
 
-      if (0..@board[row].size).to_a.include?(col) 
+      if 0 <= col && col < @board[row].size
         selected_card = @board[row][col]
 
         #if first turn
         if @first_card.nil?
           @first_card = selected_card
           @first_card.flip!
+          print_board
+          return true
 
         #if second turn
         elsif @second_card.nil?
@@ -60,10 +61,9 @@ class MemoryGame
             @second_card.flip!
             check_similarity
             print_board
+            return true
           end
         end
-        return true
-
       else
         puts "Invalid col."
         return false
@@ -154,9 +154,12 @@ class MemoryGame
         @first_card = nil
         @second_card = nil
       else
+        print_board
         sleep(3)
         @first_card.flip!
         @second_card.flip!
+        @first_card = nil
+        @second_card = nil
       end
     end
   end
