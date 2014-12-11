@@ -75,7 +75,6 @@ class MemoryGame
   end
 
   def print_board
-    print '['
     for row in @board
       print '['
       for card in row
@@ -89,26 +88,24 @@ class MemoryGame
       print ']'
       print "\n"
     end
-    print ']'
-    print "\n"
   end
 
 
   private
 
   def is_new_card?(card,card_arr)
-    is_new = !card_arr.map{ |c| c.instance_variable_get(:@symbol) }
+    !card_arr.map{ |c| c.instance_variable_get(:@symbol) }
       .include?( card.instance_variable_get(:@symbol) )
-    if is_new
-      "Found a new card!"
-      return true
-    else
-      puts "Card with symbol: #{card.instance_variable_get(:@symbol)} is already in array: #{print card_arr}"
-    end
+    # if is_new
+    #   "Found a new card!"
+    #   return true
+    # else
+    #   puts "Card with symbol: #{card.instance_variable_get(:@symbol)} is already in array: #{print card_arr}"
+    # end
   end
 
   def find_uniq_cards
-    puts "checking for uniq cards..."
+    puts "shuffling cards..."
     uniq_cards = []
     while uniq_cards.size < (@num_cards / 2)
       card = Card.random_card
