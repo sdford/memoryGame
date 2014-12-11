@@ -115,7 +115,7 @@ class MemoryGame
   end
 
   def check_similarity
-    if !@first_card.nil? && !@second_card
+    if !@first_card.nil? && !@second_card.nil?
       if @first_card.symbol.equals?(@second_card.symbol)
         @first_card = nil
         @second_card = nil
