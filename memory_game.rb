@@ -1,4 +1,6 @@
 class MemoryGame
+  require './card.rb'
+
   def initialize
     #make sure num of cards is even
     #even num of cols => even num of cards
