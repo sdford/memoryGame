@@ -23,8 +23,8 @@ class MemoryGame
     uniq_cards = find_uniq_cards
     make_board(uniq_cards)
 
+    puts "Starting game..."
     while !is_game_over?
-      puts "Starting game..."
       start_turn
     end
   end
@@ -32,34 +32,36 @@ class MemoryGame
   def start_turn
     print_board
 
-    puts "Please enter a row (1-#{@board.size+1})"
+    puts "Please enter a row (1-#{@board.size})"
     row = (gets.chomp).to_i
+    row -= 1
 
-    if (1..@board.size+1).to_a.include?(row) 
-      row -= 1 
+    if (0..@board.size).to_a.include?(row) 
+      puts "Please enter a col (1-#{@board[row].size})"
       col = (gets.chomp).to_i
+      col -= 1
 
-      if (1..@board[row].size+1).to_a.include?(col) 
-        col -= 1
+      if (0..@board[row].size).to_a.include?(col) 
         selected_card = @board[row][col]
 
         #if first turn
         if @first_card.nil?
-          selected_card.flip!
-          @first_card = clicked_card
+          @first_card = selected_card
+          @first_card.flip!
 
         #if second turn
         elsif @second_card.nil?
           if selected_card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
-            puts "Card already flipped up."
+            puts "Card already flipped."
             print_board
             return false
           else
-            selected_card.flip!
+            @second_card = selected_card
+            @second_card.flip!
             check_similarity
+            print_board
           end
         end
-        print_board
         return true
 
       else
@@ -74,11 +76,12 @@ class MemoryGame
   end
 
   def print_board
+    print "\n"
     for row in @board
       print '['
       for card in row
         if card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
-          print card.symbol
+          print card.instance_variable_get(:@symbol)
         else
           print 'X'
         end
@@ -87,6 +90,7 @@ class MemoryGame
       print ']'
       print "\n"
     end
+    print "\n"
   end
 
 
@@ -115,9 +119,18 @@ class MemoryGame
     uniq_cards
   end
 
+  def make_pairs(cards)
+    card_pair_arr = []
+    for card in cards
+      card_pair_arr.push(card)
+      card_pair_arr.push(Card.new(card.instance_variable_get(:@symbol)))
+    end
+    card_pair_arr
+  end
+
   def make_board(uniq_cards)
     puts "making board..."
-    cards = uniq_cards + uniq_cards
+    cards = make_pairs(uniq_cards)
     cards.shuffle!
 
     card_index = 0
@@ -133,7 +146,11 @@ class MemoryGame
 
   def check_similarity
     if !@first_card.nil? && !@second_card.nil?
-      if @first_card.symbol.equals?(@second_card.symbol)
+      if @first_card.instance_variable_get(:@symbol)
+        .eql?(@second_card.instance_variable_get(:@symbol))
+        puts "Match Found"
+        @num_found_matches += 1
+        puts "Number of Found Matches: #{@num_found_matches}"
         @first_card = nil
         @second_card = nil
       else
