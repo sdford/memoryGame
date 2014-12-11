@@ -32,14 +32,12 @@ class MemoryGame
   def start_turn
     print_board
 
-    puts "Please enter a row (1-#{@board.size})"
-    row = gets.chomp
-    puts "You entered row: #{row}"
-    if (1..@board.size+1)to_a.include?(row) 
+    puts "Please enter a row (1-#{@board.size+1})"
+    row = (gets.chomp).to_i
+
+    if (1..@board.size+1).to_a.include?(row) 
       row -= 1 
-      puts "Please enter a col (1-#{@board[row].size}"
-      col = gets.chomp
-      puts "You entered col: #{col}"
+      col = (gets.chomp).to_i
 
       if (1..@board[row].size+1).to_a.include?(col) 
         col -= 1
@@ -52,7 +50,7 @@ class MemoryGame
 
         #if second turn
         elsif @second_card.nil?
-          if selected_card.state == Card::FLIPPED_UP_STATE
+          if selected_card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
             puts "Card already flipped up."
             print_board
             return false
