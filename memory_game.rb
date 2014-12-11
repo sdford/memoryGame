@@ -116,7 +116,7 @@ class MemoryGame
         uniq_cards.push(card)
       end
     end
-
+    uniq_cards
   end
 
   def make_board(uniq_cards)
