@@ -113,7 +113,7 @@ class MemoryGame
     while uniq_cards.size < (@num_cards / 2)
       card = Card.random_card
       if is_new_card?(card,uniq_cards)
-        uniq_cards.append(card)
+        uniq_cards.push(card)
       end
     end
 
@@ -128,10 +128,10 @@ class MemoryGame
     for row_index in (0..@num_rows)
       row = []
       for col_index in (0..@num_cols)
-        row.append(cards[card_index])
+        row.push(cards[card_index])
         card_index += 1
       end
-      @board.append(row)
+      @board.push(row)
     end
   end
 
