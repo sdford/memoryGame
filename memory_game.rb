@@ -77,10 +77,12 @@ class MemoryGame
         end
       else
         puts "Invalid col."
+        print_board
         return false
       end
     else
       puts "Invalid row."
+      print_board
       return false
     end
 
@@ -88,9 +90,10 @@ class MemoryGame
 
   def print_board
     print "\n"
-    for row in @board
+    print '['
+    @board.each_with_index do |row,r_index|
       print '['
-      for card in row
+      row.each_with_index do |card,c_index|
         if card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
           print card.instance_variable_get(:@symbol)
         elsif card.nil?
@@ -98,9 +101,14 @@ class MemoryGame
         else
           print 'X'
         end
-        print ', '
+        if c_index < row.size-1
+          print ', '
+        end
       end
       print ']'
+      if r_index == @board.size-1
+        print ']'
+      end
       print "\n"
     end
     print "\n"
