@@ -1,19 +1,19 @@
 class MemoryGame
-  #make sure num of cards is even
-  #even num of cols => even num of cards
-  @num_rows = 2
-  @num_cols = 3
-
-  #make sure num_cards/2 < Card::Symbols.size
-  @num_cards = @num_rows * @num_cols
-  
-  @num_possible_matches = @num_cards/2
-  @num_found_matches = 0
-
-  @first_card = nil
-  @second_card = nil
-
   def initialize
+    #make sure num of cards is even
+    #even num of cols => even num of cards
+    @num_rows = 2
+    @num_cols = 3
+
+    #make sure num_cards/2 < Card::Symbols.size
+    @num_cards = @num_rows * @num_cols
+    
+    @first_card = nil
+    @second_card = nil
+
+    @num_possible_matches = @num_cards/2
+    @num_found_matches = 0
+
     @cards = []
     @board = []
 
@@ -25,7 +25,13 @@ class MemoryGame
       end
     end
     make_board(uniq_cards)
-    start_turn
+    start_game
+  end
+
+  def start_game
+    while !is_game_over?
+      start_turn
+    end
   end
 
   def start_turn
@@ -125,6 +131,10 @@ class MemoryGame
         @second_card.flip!
       end
     end
+  end
+
+  def is_game_over?
+    @num_found_matches == @num_possible_matches
   end
 end
 
