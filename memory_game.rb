@@ -86,7 +86,7 @@ class MemoryGame
     for row in @board
       print '['
       for card in row
-        if card.state == Card::FLIPPED_UP_STATE
+        if card.instance_variable_get(:@state) == Card::FLIPPED_UP_STATE
           print card.symbol
         else
           print 'X'
@@ -104,7 +104,8 @@ class MemoryGame
   private
 
   def is_new_card?(card,card_arr)
-    card_arr.map{|c| c.symbol}.include?(card.symbol)
+    card_arr.map{ |c| c.instance_variable_get(:@symbol) }
+      .include?( card.instance_variable_get(:@symbol) )
   end
 
   def make_board(uniq_cards)
