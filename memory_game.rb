@@ -5,7 +5,7 @@ class MemoryGame
   @num_cols = 3
 
   #make sure num_cards/2 < Card::Symbols.size
-  @num_cards = @@num_rows * @@num_cols
+  @num_cards = @num_rows * @num_cols
   
   @num_possible_matches = @num_cards/
   @num_found_matches = 0
